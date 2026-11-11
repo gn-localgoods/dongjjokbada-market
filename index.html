@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="동쪽바다중앙시장 스마트 점포 다국어 안내">
+  <title>동쪽바다중앙시장 스마트 메뉴</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #f5f5f5;
+      font-family: Arial, "Noto Sans KR", sans-serif;
+      color: #222;
+    }
+
+    .header {
+      background: #ffffff;
+      text-align: center;
+      padding: 22px 16px 18px;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .header p {
+      margin: 8px 0 0;
+      font-size: 14px;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    .store-page {
+      width: 100%;
+      max-width: 860px;
+      margin: 0 auto;
+      background: #fff;
+      min-height: 100vh;
+    }
+
+    .detail-image {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin: 0;
+    }
+
+    .home {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 22px 16px 50px;
+    }
+
+    .home-title {
+      margin: 0 0 8px;
+      font-size: 21px;
+      text-align: center;
+    }
+
+    .home-desc {
+      margin: 0 0 24px;
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .store-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .store-link {
+      display: flex;
+      align-items: center;
+      min-height: 58px;
+      padding: 12px 13px;
+      background: #fff;
+      border: 1px solid #e2e2e2;
+      border-radius: 10px;
+      color: #222;
+      text-decoration: none;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .store-number {
+      display: inline-block;
+      min-width: 27px;
+      margin-right: 8px;
+      font-weight: 700;
+      color: #777;
+    }
+
+    .back-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 14px 16px;
+      background: #fff;
+      border-bottom: 1px solid #eee;
+    }
+
+    .back-button {
+      display: inline-block;
+      color: #444;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .error {
+      max-width: 860px;
+      margin: 40px auto;
+      padding: 30px 20px;
+      text-align: center;
+      background: #fff;
+    }
+
+    @media (max-width: 520px) {
+      .store-list {
+        grid-template-columns: 1fr;
+      }
+
+      .header h1 {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div id="app"></div>
+
+<script>
+const stores = [
+  ["01", "묵호꼬다리김밥", "01_mukho-kkodari-gimbap.jpg"],
+  ["02", "해동반점", "02_haedong-banjeom.jpg"],
+  ["03", "옥이네칼국수", "03_okine-kalguksu.jpg"],
+  ["04", "흥부네찜", "04_heungbune-jjim.jpg"],
+  ["05", "미진식당", "05_mijin-sikdang.jpg"],
+  ["06", "묵호어장", "06_mukho-eojang.jpg"],
+  ["07", "대림식당", "07_daerim-sikdang.jpg"],
+  ["08", "주바라기", "08_jubaragi.jpg"],
+  ["09", "우리칼국수", "09_uri-kalguksu.jpg"],
+  ["10", "춘식이네찜나라", "10_chunsigine-jjimnara.jpg"],
+  ["11", "풍물보리밥장칼국수", "11_pungmul-boribap-jang-kalguksu.jpg"],
+  ["12", "묵호통닭닭강정", "12_mukho-chicken-dakgangjeong.jpg"],
+  ["13", "임계분식", "13_imgye-bunsik.jpg"],
+  ["14", "착한메밀전", "14_chakan-memiljeon.jpg"],
+  ["15", "영동상회", "15_yeongdong-sanghoe.jpg"],
+  ["16", "소문난실비촌", "16_somunnan-silbichon.jpg"],
+  ["17", "옆구리문어", "17_yeopguri-muneo.jpg"],
+  ["18", "땅스부대찌개", "18_ttangs-budae-jjigae.jpg"],
+  ["19", "동해중앙닭강정", "19_donghae-jungang-dakgangjeong.jpg"],
+  ["20", "묵호순대", "20_mukho-sundae.jpg"],
+  ["21", "정선메밀전", "21_jeongseon-memiljeon.jpg"],
+  ["22", "무코로케", "22_mukoroke.jpg"],
+  ["23", "가마솥옛강정", "23_gamasot-yet-gangjeong.jpg"],
+  ["24", "묵호튀김전", "24_mukho-twigim-jeon.jpg"],
+  ["25", "남매네분식", "25_namnaene-bunsik.jpg"],
+  ["26", "부엉이소바", "26_bueongi-soba.jpg"],
+  ["27", "오묵오", "27_omuko.jpg"],
+  ["28", "한끼,곁", "28_hankki-gyeot.jpg"],
+  ["29", "동해바닭", "29_donghae-badak.jpg"],
+  ["30", "삼척수제비", "30_samcheok-sujebi.jpg"],
+  ["31", "챔피온떡갈비", "31_champion-tteokgalbi.jpg"],
+  ["32", "텔레파시분식", "32_telepathy-bunsik.jpg"],
+  ["33", "김밥천국", "33_gimbap-cheonguk.jpg"],
+  ["34", "옥계상회", "34_okgye-sanghoe.jpg"],
+  ["35", "스마일전분식", "35_smile-jeon-bunsik.jpg"],
+  ["36", "금석이네", "36_geumseogine.jpg"],
+  ["37", "임계만두", "37_imgye-mandu.jpg"],
+  ["38", "동해닭집", "38_donghae-dakjip.jpg"],
+  ["39", "율짬뽕", "39_yul-jjamppong.jpg"],
+  ["40", "동해즉석두부", "40_donghae-fresh-tofu.jpg"],
+  ["41", "파닭김밥", "41_padak-gimbap.jpg"],
+  ["42", "호호호떡", "42_hoho-hotteok.jpg"],
+  ["43", "묵호김밥", "43_mukho-gimbap.jpg"],
+  ["44", "강릉찜집", "44_gangneung-jjimjip.jpg"],
+  ["45", "장수식당", "45_jangsu-sikdang.jpg"],
+  ["46", "어탕칼국수", "46_eotang-kalguksu.jpg"],
+  ["47", "쌍둥이네추어탕", "47_ssangdungine-chueotang.jpg"],
+  ["48", "라떼루", "48_latte-roo.jpg"]
+];
+
+const params = new URLSearchParams(window.location.search);
+const storeId = params.get("store");
+const app = document.getElementById("app");
+
+function showHome() {
+  document.title = "동쪽바다중앙시장 스마트 메뉴";
+
+  const links = stores.map(store => `
+    <a class="store-link" href="?store=${store[0]}">
+      <span class="store-number">${store[0]}</span>
+      <span>${store[1]}</span>
+    </a>
+  `).join("");
+
+  app.innerHTML = `
+    <div class="header">
+      <h1>동쪽바다중앙시장 스마트 메뉴</h1>
+      <p>점포를 선택하면 매장 소개와 다국어 메뉴를 확인할 수 있습니다.</p>
+    </div>
+
+    <main class="home">
+      <h2 class="home-title">참여점포</h2>
+      <p class="home-desc">
+        QR로 만나는 스마트 메뉴판<br>
+        매장 소개와 다국어 메뉴를 확인해 보세요.
+      </p>
+
+      <div class="store-list">
+        ${links}
+      </div>
+    </main>
+  `;
+}
+
+function showStore(id) {
+  const store = stores.find(item => item[0] === id);
+
+  if (!store) {
+    app.innerHTML = `
+      <div class="error">
+        <h2>페이지를 찾을 수 없습니다.</h2>
+        <p><a href="./">점포 목록으로 돌아가기</a></p>
+      </div>
+    `;
+    return;
+  }
+
+  document.title = `${store[1]} | 동쪽바다중앙시장`;
+
+  app.innerHTML = `
+    <div class="back-wrap">
+      <a class="back-button" href="./">← 동쪽바다중앙시장 점포 목록</a>
+    </div>
+
+    <main class="store-page">
+      <img
+        class="detail-image"
+        src="${store[2]}"
+        alt="${store[1]} 상세페이지"
+      >
+    </main>
+  `;
+}
+
+if (storeId) {
+  showStore(storeId);
+} else {
+  showHome();
+}
+</script>
+
+</body>
+</html>
